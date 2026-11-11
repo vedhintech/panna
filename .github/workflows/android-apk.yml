@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
       - 'Panna_Premium_Final.zip'
+      - 'patches/**'
       - '.github/workflows/android-apk.yml'
   workflow_dispatch:
 
@@ -38,6 +39,13 @@ jobs:
           APP_DIR="$(dirname "$PACKAGE_JSON")"
           echo "APP_DIR=$APP_DIR" >> "$GITHUB_ENV"
           echo "Source directory: $APP_DIR"
+      - name: Apply app fixes and run source tests
+        run: |
+          cp patches/apply-panna-quality-fixes.py "$APP_DIR/apply-panna-quality-fixes.py"
+          cd "$APP_DIR"
+          python3 apply-panna-quality-fixes.py
+          npm test
+          npm run check
       - name: Upload extracted source for inspection
         uses: actions/upload-artifact@v4
         with:
