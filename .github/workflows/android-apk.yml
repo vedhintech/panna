@@ -1,4 +1,5 @@
 name: Build Panna Android APK
+# Automated CI build for the uploaded Panna source
 
 on:
   push:
