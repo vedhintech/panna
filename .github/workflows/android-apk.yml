@@ -38,6 +38,13 @@ jobs:
           APP_DIR="$(dirname "$PACKAGE_JSON")"
           echo "APP_DIR=$APP_DIR" >> "$GITHUB_ENV"
           echo "Source directory: $APP_DIR"
+      - name: Upload extracted source for inspection
+        uses: actions/upload-artifact@v4
+        with:
+          name: Panna-Extracted-Source
+          path: ${{ env.APP_DIR }}/
+          if-no-files-found: error
+          retention-days: 14
       - name: Install dependencies and build web app
         run: |
           cd "$APP_DIR"
